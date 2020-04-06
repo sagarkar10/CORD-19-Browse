@@ -1,5 +1,7 @@
 ### Covid19
-Trying to build a Document Analysis Pipeline with Covid-19 open data set
+A app to intelligently search through COVID-19 Open Research Dataset (CORD-19)[link](https://pages.semanticscholar.org/coronavirus-research) and find similar papers powered with Machine Learning and NLP. All with a sleek UI.
+
+###### Note: Project Under Development
 
 #### Download Resources
 Download the model file `cord19-300d.magnitude (644.95 MB)` form [here](https://www.kaggle.com/davidmezzetti/cord19-fasttext-vectors#cord19-300d.magnitude) and after unzipping keep it in dir `resources` in the root directory.
