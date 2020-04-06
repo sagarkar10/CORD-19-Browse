@@ -33,8 +33,8 @@ def main():
         df = update_data()
         st.info(f"Time Taken: {round(time.time()-t, 5)} sec")
         
-    st.title("CORD-19 Data Analysis")
-    st.header("Please Enter Query/Title to Search Similar Research Titles")
+    st.title("COVID-19 Open Research Dataset Search")
+    st.header("Please Enter Query/Title to Search for Similar Research Titles")
     query = st.text_input("Plain Text Only")
     top_n = st.slider('Show Top n Predicted docs?', min_value=5, max_value=30, value=5)
     st.header("Prediction")

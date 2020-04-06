@@ -20,7 +20,7 @@ For now we will only use the Metadata File from [Semantic Scholar](https://pages
 ├── resources
 │   ├── cord19-300d.magnitude
 ├── src
-│   ├── app.py
+│   ├── cord19_app.py
 │   ├── config.cfg
 │   ├── data_io.py
 │   ├── embedding.py
@@ -28,13 +28,19 @@ For now we will only use the Metadata File from [Semantic Scholar](https://pages
 │   ├── utils.py
 │   └── vectorizer.py
 
+... (excluded others)
+
 ```
 
  
 #### Running the Streamlit App
 ```
 cd src
-streamlit run app.py
+streamlit run cord19_app.py
 ```
 
 **Note: On first run Click on `Update Data` button on sidebar of the app, it will take around 3-5 min, wait for it Then you can run query. This is only required first time and next when you want to update new data from the source.**
+
+![Landing](img/landing.png)
+![QueryResponse](img/query1.png)
+![QueryResponse](img/query2.png)
