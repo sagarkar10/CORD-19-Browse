@@ -30,15 +30,6 @@ def main():
     st.sidebar.markdown("### Updating Data takes more than 3 minutes and overwrite disk data. This is intended to be run in interval of few days!")
     if st.sidebar.button("Update Data"):
         df = update_data()
-    
-#     st.sidebar.markdown("#### Load the Data before to get faster query results!")
-#     if st.sidebar.button("Load Data"):
-#         if df.empty:
-#             df = get_data()
-#             st.sidebar.balloons()
-#             st.sidebar.success("Data Loaded!")
-#         else:
-#             st.sidebar.error("Data Already Loaded!")
         
     st.title("CORD-19 Data Analysis")
     st.header("Please Enter Query/Title to Search Similar Research Titles")
@@ -51,9 +42,15 @@ def main():
         else:
             with st.spinner("Running Query"):
                 res = get_result(query, get_data(), top_n)
-            st.balloons()
-            st.json(json.dumps(res))
+                qu = res["query"]
+                p_qu = res["processed_query"]
+                pred = res["pred"]
+            st.markdown(f"**Query:** `{qu}`")
+            st.markdown(f"**Processed Query:** `{p_qu}`")
+            for k, v in pred.items():
+                st.subheader(f"Rank: {k}")
+                st.write(f'''<a target="_blank" href='{v["url"]}'>Open Source</a>''', unsafe_allow_html=True)
+                st.json(json.dumps(v))
 
 if __name__=="__main__":
     main()
-
