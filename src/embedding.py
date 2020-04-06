@@ -10,8 +10,10 @@ class Embedding(object):
         config.read(self.config_path)
         self.EMBEDING_FILE = config.get("DATA", "EMBEDING_FILE")
         self.EMBEDDING_DIM = config.getint("DATA", "EMBEDING_DIM")
-        
-        self._load_embedding()
+        try:
+            self._load_embedding()
+        except:
+            raise ValueError(f'Model File Not found: {self.EMBEDING_FILE}')
         
     def __str__(self):
         return f"config_path:{self.config_path}, embedding_file_path:{self.EMBEDING_FILE}, embedding_dimension:{self.EMBEDDING_DIM}, length:{self.WEM.length}"

@@ -8,6 +8,7 @@ from vectorizer import Vectorizer
 import pickle
 import urllib
 import re
+import streamlit as st
 
 
 class DataIO(object):
@@ -51,7 +52,7 @@ class DataIO(object):
             self.df = df
             self._process_data()
             logger.info(f'Data Processed\n')
-            self._write_pickle(df, filename=self.DATA_DIR+"/processed_metadata.pickle")
+            self._write_pickle(filename=self.DATA_DIR+"/processed_metadata.pickle")
             logger.info("Updated Processed File Created!")
             return self.df
         else:
@@ -59,15 +60,15 @@ class DataIO(object):
             return pd.DataFrame()
     
     
-    def _write_pickle(self, df, filename):
+    def _write_pickle(self, filename):
         logger.info("Writing Pickle Data to disk")
         with open(filename, "wb") as f:
-            pickle.dump(df, f)
+            pickle.dump(self.df, f)
     
     def _load_pickle(self, filename):
         with open(filename, "rb") as fp:
-                df = pickle.load(fp)
-        return df
+                self.df = pickle.load(fp)
+        return self.df
     
     def _process_data(self):
         self.df = self.df.fillna(" ")
@@ -98,14 +99,16 @@ class DataIO(object):
     
     def _load_metadata(self):
         if os.path.exists(f"{self.DATA_DIR}/processed_metadata.pickle"):
-            logger.info(f"Loading processed_metadata.pickle from {self.DATA_DIR}")
-            df = self._load_pickle(filename=f"{self.DATA_DIR}/processed_metadata.pickle")
-        
+            logger.info(f"Loading {self.DATA_DIR}/processed_metadata.pickle ")
+            self._load_pickle(filename=f"{self.DATA_DIR}/processed_metadata.pickle")
+        else:
+            st.info("Data Not Found, Downloading... Will take few mins!")
+            return self.update()
+            
         if df.empty:
             logger.warning("DataFrame is empty! Not loading")
             return None
         else:
-            self.df = df
             return self.df
         
     def get_data(self):
