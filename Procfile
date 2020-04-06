@@ -1,1 +1,1 @@
-web: cd src && streamlit run cord_19.py
+web: cd src && streamlit run cord19_app.py
