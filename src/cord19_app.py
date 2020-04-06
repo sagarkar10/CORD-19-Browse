@@ -4,6 +4,8 @@ import json
 from utils import get_most_similar_title
 from data_io import DataIO
 import time
+import os
+import configparser
 
 @st.cache()
 def get_result(query, df, top_n):
@@ -15,8 +17,13 @@ def get_data():
     df = dataio.get_data()
     return df
 
+@st.cache()
+def get_data_dir():
+    config = configparser.ConfigParser()
+    config.read("config.cfg")
+    return config.get("DATA", "DATA_DIR")
+
 def update_data():
-    
     dataio=DataIO(autoload=False)
     df = dataio.update()
     if df.empty:
@@ -28,11 +35,14 @@ def update_data():
 
 def main():
     st.sidebar.markdown("### Updating Data takes more than 3 minutes and overwrite disk data. This is intended to be run in interval of few days!")
+    if not os.path.exists(f"{get_data_dir()}/processed_metadata.pickle"):
+        st.error("Using Sample Data, Use Update Data to get full results!")
+    
     if st.sidebar.button("Update Data"):
         t = time.time()
         df = update_data()
         st.info(f"Time Taken: {round(time.time()-t, 5)} sec")
-        
+      
     st.title("COVID-19 Open Research Dataset Search")
     st.header("Please Enter Query/Title to Search for Similar Research Titles")
     query = st.text_input("Plain Text Only")

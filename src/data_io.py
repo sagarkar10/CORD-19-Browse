@@ -48,8 +48,8 @@ class DataIO(object):
             logger.info('Processing Data... Please Wait')
             df = pd.read_csv(f_name)
             df = df[["title", "abstract", "publish_time", "authors", "journal", "source_x", "url"]].fillna(" ")
+            df["title_vect"] = self.df["title"].apply(Vectorizer.vectorize_sent)
             self.df = df
-            self._process_data()
             logger.info(f'Data Processed\n')
             self._write_pickle(filename=self.DATA_DIR+"/processed_metadata.pickle")
             logger.info("Updated Processed File Created!")
@@ -58,7 +58,13 @@ class DataIO(object):
             logger.warning("Update Failed")
             return pd.DataFrame()
     
-    
+    def load_sample(self):
+        df = pd.read_csv(f"{self.DATA_DIR}/sample_metadata.csv")
+        df = df[["title", "abstract", "publish_time", "authors", "journal", "source_x", "url"]].fillna(" ")
+        df["title_vect"] = df["title"].apply(Vectorizer.vectorize_sent)
+        self.df = df
+        return self.df
+        
     def _write_pickle(self, filename):
         logger.info("Writing Pickle Data to disk")
         with open(filename, "wb") as f:
@@ -69,10 +75,10 @@ class DataIO(object):
                 self.df = pickle.load(fp)
         return self.df
     
-    def _process_data(self):
-        self.df = self.df.fillna(" ")
-        self.df = self.df.assign(title_vect=Vectorizer.vectorize_sents(self.df["title"].values))
-        return self.df
+#     def _process_data(self):
+#         self.df = self.df.fillna(" ")
+#         self.df = self.df.assign(title_vect=Vectorizer.vectorize_sents(self.df["title"].values))
+#         return self.df
         
 #     def _load_data_v1(self):
 #         logger.info(f"Loading json data from {self.DATA_DIR}")
@@ -100,6 +106,9 @@ class DataIO(object):
         if os.path.exists(f"{self.DATA_DIR}/processed_metadata.pickle"):
             logger.info(f"Loading {self.DATA_DIR}/processed_metadata.pickle ")
             self._load_pickle(filename=f"{self.DATA_DIR}/processed_metadata.pickle")
+        elif os.path.exists(f"{self.DATA_DIR}/sample_metadata.csv"):
+            logger.info(f"Loading {self.DATA_DIR}/sample_metadata.csv")
+            return self.load_sample()
         else:
             return self.update()
             
