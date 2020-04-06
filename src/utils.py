@@ -30,15 +30,15 @@ def get_most_similar_title(query_title, df, top_n=5):
         tok_sim = _get_token_similarity(" ".join(tokens), each["title"])
         ret["pred"].update({
             n: {
-                "score":round(dist[i],5),
+                "score":1.0 - round(dist[i],5),
                 "title": each["title"], 
-                "abstract":each["abstract"],
-                "publish_time":each["publish_time"],
-                "authors":each["authors"],
-                "journal":each["journal"],
-                "source_x":each["source_x"],
+#                 "abstract":each["abstract"],
+#                 "publish_time":each["publish_time"],
+#                 "authors":each["authors"],
+#                 "journal":each["journal"],
+#                 "source_x":each["source_x"],
                 "url":each["url"],
-                "token_similarity":tok_sim
+#                 "token_similarity":tok_sim
             }
         })
     return ret

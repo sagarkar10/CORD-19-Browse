@@ -4,7 +4,7 @@ from loguru import logger
 
 class Embedding(object):
     
-    def __init__(self, config_path='../config.cfg'):
+    def __init__(self, config_path='config.cfg'):
         self.config_path = config_path
         config = configparser.ConfigParser()
         config.read(self.config_path)
