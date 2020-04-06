@@ -8,7 +8,6 @@ from vectorizer import Vectorizer
 import pickle
 import urllib
 import re
-import streamlit as st
 
 
 class DataIO(object):
@@ -102,10 +101,9 @@ class DataIO(object):
             logger.info(f"Loading {self.DATA_DIR}/processed_metadata.pickle ")
             self._load_pickle(filename=f"{self.DATA_DIR}/processed_metadata.pickle")
         else:
-            st.info("Data Not Found, Downloading... Will take few mins!")
             return self.update()
             
-        if df.empty:
+        if self.df.empty:
             logger.warning("DataFrame is empty! Not loading")
             return None
         else:
