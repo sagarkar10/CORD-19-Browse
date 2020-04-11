@@ -48,11 +48,17 @@ class DataIO(object):
             logger.info('Processing Data... Please Wait')
             df = pd.read_csv(f_name)
             df = df[["title", "abstract", "publish_time", "authors", "journal", "source_x", "url"]].fillna(" ")
-            df["title_vect"] = df["title"].apply(Vectorizer.vectorize_sent)
-            self.df = df
-            logger.info(f'Data Processed\n')
-            self._write_pickle(filename=self.DATA_DIR+"/processed_metadata.pickle")
-            logger.info("Updated Processed File Created!")
+            self.df = self.get_data()
+            df = self.df[~self.df["title"].isin(df["title"])]
+            if df.empty:
+                logger.info("No New data to update")
+            else:
+                logger.info(f"New Data after last run: {df.shape}")
+                df["title_vect"] = df["title"].apply(Vectorizer.vectorize_sent)
+                self.df = pd.concat([self.df, df],ignore_index=True)
+                logger.info(f'Data Processed\n')
+                self._write_pickle(filename=self.DATA_DIR+"/processed_metadata.pickle")
+                logger.info("Updated Processed File Created!")
             return self.df
         else:
             logger.warning("Update Failed")

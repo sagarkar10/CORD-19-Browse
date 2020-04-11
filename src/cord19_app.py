@@ -7,7 +7,6 @@ import time
 import os
 import configparser
 
-@st.cache()
 def get_result(query, df, top_n):
     return get_most_similar_title(query, df, top_n)
 
