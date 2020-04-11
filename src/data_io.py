@@ -48,7 +48,7 @@ class DataIO(object):
             logger.info('Processing Data... Please Wait')
             df = pd.read_csv(f_name)
             df = df[["title", "abstract", "publish_time", "authors", "journal", "source_x", "url"]].fillna(" ")
-            df["title_vect"] = self.df["title"].apply(Vectorizer.vectorize_sent)
+            df["title_vect"] = df["title"].apply(Vectorizer.vectorize_sent)
             self.df = df
             logger.info(f'Data Processed\n')
             self._write_pickle(filename=self.DATA_DIR+"/processed_metadata.pickle")
