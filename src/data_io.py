@@ -34,7 +34,7 @@ class DataIO(object):
         d = urllib.request.urlopen(url="https://pages.semanticscholar.org/coronavirus-research") 
         if d.status==200:
             con = d.read()
-            return re.findall('<a href="(https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/.{10}/metadata.csv)">Metadata file</a>', str(con))[0]
+            return re.findall('<a href="(https://ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/.{10}/metadata.csv)">', str(con))[0]
         else:
             return None
     
