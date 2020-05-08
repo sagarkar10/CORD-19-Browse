@@ -6,6 +6,7 @@ import re
 import string
 from loguru import logger
 
+
 class Tokenizer(object):
     """
     Text tokenization methods
@@ -15,9 +16,41 @@ class Tokenizer(object):
     PUNCTUATION = string.punctuation
 
     # English Stop Word List (Standard stop words used by Apache Lucene)
-    STOP_WORDS = {"a", "an", "and", "are", "as", "at", "be", "but", "by", "for", "if", "in", "into", "is", "it",
-                  "no", "not", "of", "on", "or", "such", "that", "the", "their", "then", "there", "these",
-                  "they", "this", "to", "was", "will", "with"}
+    STOP_WORDS = {
+        "a",
+        "an",
+        "and",
+        "are",
+        "as",
+        "at",
+        "be",
+        "but",
+        "by",
+        "for",
+        "if",
+        "in",
+        "into",
+        "is",
+        "it",
+        "no",
+        "not",
+        "of",
+        "on",
+        "or",
+        "such",
+        "that",
+        "the",
+        "their",
+        "then",
+        "there",
+        "these",
+        "they",
+        "this",
+        "to",
+        "was",
+        "will",
+        "with",
+    }
 
     @staticmethod
     def tokenize(text):
@@ -32,9 +65,17 @@ class Tokenizer(object):
         """
 
         # Convert to all lowercase, split on whitespace, strip punctuation
-        tokens = [token.strip(Tokenizer.PUNCTUATION) for token in text.lower().split()]
+        tokens = [
+            token.strip(Tokenizer.PUNCTUATION)
+            for token in text.lower().split()
+        ]
 
         # Tokenize on alphanumeric strings.
         # Require strings to be at least 2 characters long.
         # Require at least 1 alpha character in string.
-        return [token for token in tokens if re.match(r"^\d*[a-z][\-.0-9:_a-z]{1,}$", token) and token not in Tokenizer.STOP_WORDS]
+        return [
+            token
+            for token in tokens
+            if re.match(r"^\d*[a-z][\-.0-9:_a-z]{1,}$", token)
+            and token not in Tokenizer.STOP_WORDS
+        ]
